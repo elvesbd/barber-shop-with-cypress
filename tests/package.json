@@ -6,6 +6,9 @@
   "repository": "https://github.com/elvesbd/barber-shop-with-cypress",
   "author": "Elves Brito",
   "license": "MIT",
+  "scripts": {
+    "test": "npx cypress open"
+  },
   "devDependencies": {
     "cypress": "^9.5.3"
   }
