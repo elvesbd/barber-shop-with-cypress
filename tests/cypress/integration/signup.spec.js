@@ -1,9 +1,9 @@
 describe('signup', () => {
+  const name = 'Ayla Brito'
+  const email = 'ayla@gmail.com'
+  const password = '123456'
+
   it('should register a new user', () => {
-    const name = 'Ayla Brito'
-    const email = 'ayla@gmail.com'
-    const password = '123456'
-  
     cy.task('removeUser', email)
       .then((result) => {
         console.log(result)
@@ -20,14 +20,10 @@ describe('signup', () => {
     cy.get('.toast')
       .should('be.visible')
       .find('p')
-      .should('have.text', 'Agora você pode fazer seu login no Samurai Barbershop!')
+      .should('have.text', 'Agora você se tornou um(a) Samurai, faça seu login para ver seus agendamentos!')
   });
   
   it('should not register a new user and display toast with error message', () => {
-    const name = 'Ayla Brito'
-    const email = 'ayla@gmail.com'
-    const password = '123456'
-  
     cy.visit('/signup')
     
     cy.get('input[placeholder="Nome"]').type(name)
