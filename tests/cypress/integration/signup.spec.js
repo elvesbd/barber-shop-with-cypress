@@ -16,9 +16,9 @@ describe('signup', () => {
     it('should register a new user with success', () => {
       cy.visit('/signup')
   
-      cy.get('input[placeholder="Nome"]').type(user.name)
-      cy.get('input[placeholder="E-mail"]').type(user.email)
-      cy.get('input[placeholder="Senha"]').type(user.password)
+      cy.get('input[placeholder^="Nome"]').type(user.name)
+      cy.get('input[placeholder$="email"]').type(user.email)
+      cy.get('input[placeholder*="senha"]').type(user.password)
       cy.contains('button', 'Cadastrar').click()
       
       cy.get('.toast')
@@ -50,9 +50,9 @@ describe('signup', () => {
     it('should not register a new user and display toast with error message', () => {
       cy.visit('/signup')
       
-      cy.get('input[placeholder="Nome"]').type(user.name)
-      cy.get('input[placeholder="E-mail"]').type(user.email)
-      cy.get('input[placeholder="Senha"]').type(user.password)
+      cy.get('input[placeholder^="Nome"]').type(user.name)
+      cy.get('input[placeholder$="email"]').type(user.email)
+      cy.get('input[placeholder*="senha"]').type(user.password)
     
       cy.contains('button', 'Cadastrar').click()
       
