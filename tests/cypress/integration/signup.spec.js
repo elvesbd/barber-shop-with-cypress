@@ -1,11 +1,11 @@
 describe('signup', () => {
-  const user = {
-    name: 'Ayla Brito',
-    email: 'ayla@gmail.com',
-    password: '123456',
-  }
-
   it('should register a new user', () => {
+    const user = {
+      name: 'Ayla Brito',
+      email: 'ayla@gmail.com',
+      password: '123456',
+    }
+    // remove a massa de teste criado no banco no teste anterior antes de rodar o novo teste
     cy.task('removeUser', user.email)
       .then((result) => {
         console.log(result)
@@ -26,6 +26,22 @@ describe('signup', () => {
   });
   
   it('should not register a new user and display toast with error message', () => {
+    const user = {
+      name: 'John',
+      email: 'john@example.com',
+      password: '123456',
+      is_provider: true
+    }
+    // remove a massa de teste criado no banco no teste anterior antes de rodar o novo teste
+    cy.task('removeUser', user.email)
+      .then((result) => {
+        console.log(result)
+      })
+
+    cy.request('POST', 'http://localhost:3333/users', user).then((response) => {
+      expect(response.status).to.eq(200)
+    })
+
     cy.visit('/signup')
     
     cy.get('input[placeholder="Nome"]').type(user.name)
