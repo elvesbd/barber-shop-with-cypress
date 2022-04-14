@@ -19,7 +19,7 @@ describe('signup', () => {
       signupPage.go()
       signupPage.form(user)
       signupPage.submit()
-      signupPage.toastHaveText('Agora você se tornou um(a) Samurai, faça seu login para ver seus agendamentos!')
+      signupPage.toast.shouldHaveText('Agora você se tornou um(a) Samurai, faça seu login para ver seus agendamentos!')
     });
   })
 
@@ -46,7 +46,7 @@ describe('signup', () => {
       signupPage.go()
       signupPage.form(user)
       signupPage.submit()
-      signupPage.toastHaveText('Email já cadastrado para outro usuário.')
+      signupPage.toast.shouldHaveText('Email já cadastrado para outro usuário.')
     });
   })
 })
