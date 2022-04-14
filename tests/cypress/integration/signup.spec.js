@@ -1,3 +1,5 @@
+import signupPage from '../support/pages/signup'
+
 describe('signup', () => {
   context('when the user is new', () => {
     const user = {
@@ -14,17 +16,10 @@ describe('signup', () => {
     })
 
     it('should register a new user with success', () => {
-      cy.visit('/signup')
-  
-      cy.get('input[placeholder^="Nome"]').type(user.name)
-      cy.get('input[placeholder$="email"]').type(user.email)
-      cy.get('input[placeholder*="senha"]').type(user.password)
-      cy.contains('button', 'Cadastrar').click()
-      
-      cy.get('.toast')
-        .should('be.visible')
-        .find('p')
-        .should('have.text', 'Agora você se tornou um(a) Samurai, faça seu login para ver seus agendamentos!')
+      signupPage.go()
+      signupPage.form(user)
+      signupPage.submit()
+      signupPage.toastHaveText('Agora você se tornou um(a) Samurai, faça seu login para ver seus agendamentos!')
     });
   })
 
@@ -48,18 +43,10 @@ describe('signup', () => {
     })
 
     it('should not register a new user and display toast with error message', () => {
-      cy.visit('/signup')
-      
-      cy.get('input[placeholder^="Nome"]').type(user.name)
-      cy.get('input[placeholder$="email"]').type(user.email)
-      cy.get('input[placeholder*="senha"]').type(user.password)
-    
-      cy.contains('button', 'Cadastrar').click()
-      
-      cy.get('.toast')
-        .should('be.visible')
-        .find('p')
-        .should('have.text', 'Email já cadastrado para outro usuário.')
+      signupPage.go()
+      signupPage.form(user)
+      signupPage.submit()
+      signupPage.toastHaveText('Email já cadastrado para outro usuário.')
     });
   })
 })
