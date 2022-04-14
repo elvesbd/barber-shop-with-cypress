@@ -1,20 +1,22 @@
+import { el } from "./elements"
+
 class SignupPage {
   go() {
     cy.visit('/signup')
   }
 
   form(user) {
-    cy.get('input[placeholder^="Nome"]').type(user.name)
-    cy.get('input[placeholder$="email"]').type(user.email)
-    cy.get('input[placeholder*="senha"]').type(user.password)
+    cy.get(el.name).type(user.name)
+    cy.get(el.email).type(user.email)
+    cy.get(el.password).type(user.password)
   }
 
   submit() {
-    cy.contains('button', 'Cadastrar').click()
+    cy.contains(el.signupButton).click()
   }
 
   toastHaveText(expectedText) {
-    cy.get('.toast')
+    cy.get(el.toast)
         .should('be.visible')
         .find('p')
         .should('have.text', expectedText)
