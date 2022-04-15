@@ -50,14 +50,14 @@ describe('signup', () => {
     });
   })
 
-  context.only('should show an error message in the input if the email is incorrect ', () => {
+  context.only('should show an error message in the input', () => {
     const user = {
       name: 'Elizabeth Olsen',
       email: 'liza.yahoo.com',
       password: 'pwd123',
     }
 
-    it('should be alert message ', () => {
+    it('should be alert message if the email is incorrect', () => {
       signupPage.go()
       signupPage.form(user)
       signupPage.submit()
