@@ -1,5 +1,12 @@
 {
   "baseUrl": "http://localhost:3000",
   "viewportWidth": 1440,
-  "viewportHeight": 900
+  "viewportHeight": 900,
+  "dbConfig": {
+    "host": "salt.db.elephantsql.com",
+    "user": "jerznhkt",
+    "password": "6UnQ5tefd731Y1WGaz-Xx-JnskCzZpZJ",
+    "database": "jerznhkt",
+    "port": 5432
+  }
 }
