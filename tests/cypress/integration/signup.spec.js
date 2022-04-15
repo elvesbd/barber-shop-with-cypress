@@ -50,7 +50,7 @@ describe('signup', () => {
     });
   })
 
-  context.only('should show an error message in the input', () => {
+  context('should show an error message in the input', () => {
     const user = {
       name: 'Elizabeth Olsen',
       email: 'liza.yahoo.com',
@@ -63,5 +63,30 @@ describe('signup', () => {
       signupPage.submit()
       signupPage.alertHaveText('Informe um email válido')
     });
+  })
+
+  context('when the password does not have the required number of characters', () => {
+    const passwords = ['1', '2a', '3ab', '4abc', '5abcd']
+
+    beforeEach(() => {
+      signupPage.go()
+    })
+
+    passwords.forEach((p) => {
+      it(`the user must not register with password: ${p}`, () => {
+        const user = {
+          name: 'Jason Friday',
+          email: 'jason@gmail.com',
+          password: p,
+        }
+
+        signupPage.form(user)
+        signupPage.submit()
+      });
+    })
+
+    afterEach(() => {
+      signupPage.alertHaveText('Pelo menos 6 caracteres')
+    })
   })
 })
