@@ -49,4 +49,19 @@ describe('signup', () => {
       signupPage.toast.shouldHaveText('Email já cadastrado para outro usuário.')
     });
   })
+
+  context.only('should show an error message in the input if the email is incorrect ', () => {
+    const user = {
+      name: 'Elizabeth Olsen',
+      email: 'liza.yahoo.com',
+      password: 'pwd123',
+    }
+
+    it('should be alert message ', () => {
+      signupPage.go()
+      signupPage.form(user)
+      signupPage.submit()
+      signupPage.alertHaveText('Informe um email válido')
+    });
+  })
 })
