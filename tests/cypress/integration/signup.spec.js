@@ -50,7 +50,7 @@ describe('signup', () => {
     });
   })
 
-  context('should show an error message in the input', () => {
+  context('when show an error message in the input', () => {
     const user = {
       name: 'Elizabeth Olsen',
       email: 'liza.yahoo.com',
@@ -72,12 +72,12 @@ describe('signup', () => {
       signupPage.go()
     })
 
-    passwords.forEach((p) => {
-      it(`the user must not register with password: ${p}`, () => {
+    passwords.forEach((password) => {
+      it(`the user must not register with password: ${password}`, () => {
         const user = {
           name: 'Jason Friday',
           email: 'jason@gmail.com',
-          password: p,
+          password: password,
         }
 
         signupPage.form(user)
@@ -87,6 +87,25 @@ describe('signup', () => {
 
     afterEach(() => {
       signupPage.alertHaveText('Pelo menos 6 caracteres')
+    })
+  })
+
+  context('when no form field and filled', () => {
+    const alertMessages = [
+      'Nome é obrigatório',
+      'E-mail é obrigatório',
+      'Senha é obrigatória',
+    ]
+
+    before(() => {
+      signupPage.go()
+      signupPage.submit()
+    })
+
+    alertMessages.forEach((message) => {
+      it(`must display ${message.toLowerCase()}`, () => {
+        signupPage.alertHaveText(message)
+      });
     })
   })
 })
