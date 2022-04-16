@@ -22,30 +22,62 @@ describe('login', () => {
       dashboardPage.header.userLoggedIn(user.name)
     });
   })
-})
 
-context.only('when user is good but password is incorrect', () => {
-  let user = {
-    name: 'Celso Kamura',
-    email: 'kamura@gmail.com',
-    password: '123456',
-    is_provider: true,
-  }
-
-  before(() => {
-    cy.postUser(user).then(() => {
-      user.password = 'abc123'
+  context('when user is good but password is incorrect', () => {
+    let user = {
+      name: 'Celso Kamura',
+      email: 'kamura@gmail.com',
+      password: '123456',
+      is_provider: true,
+    }
+  
+    before(() => {
+      cy.postUser(user).then(() => {
+        user.password = 'abc123'
+      })
     })
+  
+    it('should return a credentials error', () => {
+      loginPage.go()
+      loginPage.form(user)
+      loginPage.submit()
+  
+      const message = 'Ocorreu um erro ao fazer login, verifique suas credenciais.'
+      loginPage.toast.shouldHaveText(message)
+  
+      cy.wait(5000)
+    });
   })
 
-  it('should return a credentials error', () => {
-    loginPage.go()
-    loginPage.form(user)
-    loginPage.submit()
+  context('when format email is incorrect', () => {
+    const emails = [
+      'test.com.br',
+      'yahoo.com',
+      '@gmail.com',
+      '@',
+      'test@',
+      '111',
+      '&*^&^*',
+      'pwd123'
+    ]
 
-    const message = 'Ocorreu um erro ao fazer login, verifique suas credenciais.'
-    loginPage.toast.shouldHaveText(message)
+    before(() => {
+      loginPage.go()
+    })
 
-    cy.wait(5000)
-  });
+    emails.forEach((email) => {
+      it(`must not log in with email: ${email}`, () => {
+        const user = {
+          email: email,
+          password:'pwd123'
+        }
+
+        loginPage.form(user)
+        loginPage.submit()
+        loginPage.alertHaveText('Informe um email válido')
+      });
+    })
+  })
 })
+
+ 
