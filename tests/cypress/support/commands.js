@@ -1,3 +1,5 @@
+/// <reference types="cypress" />
+
 // ***********************************************
 // This example commands.js shows you how to
 // create various custom commands and overwrite
@@ -23,3 +25,14 @@
 //
 // -- This will overwrite an existing command --
 // Cypress.Commands.overwrite('visit', (originalFn, url, options) => { ... })
+
+Cypress.Commands.add('postUser', (user) => {
+  cy.task('removeUser', user.email)
+  .then((result) => {
+    console.log(result)
+  })
+
+  cy.request('POST', 'http://localhost:3333/users', user).then((response) => {
+    expect(response.status).to.eq(200)
+})
+})
