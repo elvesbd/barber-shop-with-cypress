@@ -32,14 +32,7 @@ describe('signup', () => {
     }
 
     before(() => {
-      cy.task('removeUser', user.email)
-        .then((result) => {
-          console.log(result)
-      })
-
-      cy.request('POST', 'http://localhost:3333/users', user).then((response) => {
-        expect(response.status).to.eq(200)
-      })
+     cy.postUser(user)
     })
 
     it('should not register a new user and display toast with error message', () => {
