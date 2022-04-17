@@ -78,6 +78,24 @@ describe('login', () => {
       });
     })
   })
+
+  context('when no form field and filled', () => {
+    const alertMessages = [
+      'E-mail é obrigatório',
+      'Senha é obrigatória',
+    ]
+
+    before(() => {
+      loginPage.go()
+      loginPage.submit()
+    })
+
+    alertMessages.forEach((message) => {
+      it(`must display ${message.toLowerCase()}`, () => {
+        loginPage.alertHaveText(message)
+      });
+    })
+  })
 })
 
  
