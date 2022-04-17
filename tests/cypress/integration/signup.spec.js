@@ -54,7 +54,7 @@ describe('signup', () => {
       signupPage.go()
       signupPage.form(user)
       signupPage.submit()
-      signupPage.alertHaveText('Informe um email válido')
+      signupPage.alert.haveText('Informe um email válido')
     });
   })
 
@@ -79,7 +79,7 @@ describe('signup', () => {
     })
 
     afterEach(() => {
-      signupPage.alertHaveText('Pelo menos 6 caracteres')
+      signupPage.alert.haveText('Pelo menos 6 caracteres')
     })
   })
 
@@ -97,7 +97,7 @@ describe('signup', () => {
 
     alertMessages.forEach((message) => {
       it(`must display ${message.toLowerCase()}`, () => {
-        signupPage.alertHaveText(message)
+        signupPage.alert.haveText(message)
       });
     })
   })

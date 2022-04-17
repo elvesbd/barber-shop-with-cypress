@@ -74,7 +74,7 @@ describe('login', () => {
 
         loginPage.form(user)
         loginPage.submit()
-        loginPage.alertHaveText('Informe um email válido')
+        loginPage.alert.haveText('Informe um email válido')
       });
     })
   })
@@ -92,7 +92,7 @@ describe('login', () => {
 
     alertMessages.forEach((message) => {
       it(`must display ${message.toLowerCase()}`, () => {
-        loginPage.alertHaveText(message)
+        loginPage.alert.haveText(message)
       });
     })
   })
