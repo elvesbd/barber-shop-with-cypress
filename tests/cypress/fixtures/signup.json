@@ -1,0 +1,25 @@
+{
+  "success": {
+    "name": "Ayla Brito",
+    "email": "ayla@gmail.com",
+    "password": "123456"
+  },
+  "duplicate_email" : {
+    "name":"John",
+    "email":"john@example.com",
+    "password":"123456",
+    "is_provider":true
+  },
+  "invalid_email": {
+    "name": "Elizabeth Olsen",
+    "email": "liza.yahoo.com",
+    "password": "pwd123"
+  },
+  "short_password" : {
+    "name": "Jason Friday",
+    "email": "jason@gmail.com",
+    "password": null
+  }
+}
+
+
