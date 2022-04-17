@@ -1,23 +1,23 @@
 import signupPage from '../support/pages/signup'
 
 describe('signup', () => {
-  context('when the user is new', () => {
-    const user = {
-      name: 'Ayla Brito',
-      email: 'ayla@gmail.com',
-      password: '123456',
-    }
+  before(() => {
+    cy.fixture('ayla').then(function(ayla) {
+      this.ayla = ayla
+    })
+  })
 
-    before(() => {
-      cy.task('removeUser', user.email)
-      .then((result) => {
+  context('when the user is new', function() {
+    before(function() {
+      cy.task('removeUser', this.ayla.email)
+      .then(function(result) {
         console.log(result)
       })
     })
 
-    it('should register a new user with success', () => {
+    it('should register a new user with success', function() {
       signupPage.go()
-      signupPage.form(user)
+      signupPage.form(this.ayla)
       signupPage.submit()
       signupPage.toast.shouldHaveText('Agora você se tornou um(a) Samurai, faça seu login para ver seus agendamentos!')
     });
