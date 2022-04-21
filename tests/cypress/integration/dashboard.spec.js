@@ -1,4 +1,5 @@
 import moment from 'moment'
+import loginPage from '../support/pages/login'
 
 describe('dashboard', function() {
   context('when the user makes an appointment in the mobile app', () => {
@@ -25,11 +26,13 @@ describe('dashboard', function() {
       cy.log(`Pegamos o token ${Cypress.env('apiToken')}`)
 
       cy.setProviderId(data.provider.email)
+      cy.createAppointment()
     })
 
     it('appointment should be displayed on the dashboard', function() {
-      cy.log(`Id do ramon é ${Cypress.env('providerId')}`)
-      cy.createAppointment()
+      loginPage.go()
+      loginPage.form(data.provider)
+      loginPage.submit()      
     });
   });
 })
@@ -39,8 +42,24 @@ Cypress.Commands.add('createAppointment', function() {
 
   now.setDate(now.getDate() + 1)
 
-  const day = moment(now).format('YYYY-MM-DD 14:00:00')
-  cy.log(day)
+  const date = moment(now).format('YYYY-MM-DD 14:00:00')
+  
+  const payload = {
+    provider_id: Cypress.env('providerId'),
+    date: date
+  }
+
+  cy.request({
+    method: 'POST',
+    url: 'http://localhost:3333/appointments',
+    body: payload,
+     headers: {
+      'authorization': `Bearer ${Cypress.env('apiToken')}` 
+    }
+  }).then(function(response) {
+    expect(response.status).to.eq(200)
+    Cypress.env('apiToken', response.body.token)
+  })
 })
 
 Cypress.Commands.add('setProviderId', function(providerEmail) {
