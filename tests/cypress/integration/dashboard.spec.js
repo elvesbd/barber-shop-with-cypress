@@ -1,5 +1,6 @@
 import moment from 'moment'
 import loginPage from '../support/pages/login'
+import dashPage from '../support/pages/dashboard'
 
 describe('dashboard', function() {
   context('when the user makes an appointment in the mobile app', () => {
@@ -23,7 +24,6 @@ describe('dashboard', function() {
       cy.postUser(data.customer)
 
       cy.apiLogin(data.customer)
-      cy.log(`Pegamos o token ${Cypress.env('apiToken')}`)
 
       cy.setProviderId(data.provider.email)
       cy.createAppointment()
@@ -32,7 +32,9 @@ describe('dashboard', function() {
     it('appointment should be displayed on the dashboard', function() {
       loginPage.go()
       loginPage.form(data.provider)
-      loginPage.submit()      
+      loginPage.submit()
+      
+      dashPage.calendarShouldBeVisible()
     });
   });
 })
