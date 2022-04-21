@@ -16,7 +16,8 @@ describe('dashboard', function() {
         email: 'ramos@televisa.com',
         password: 'pwd123',
         is_provider: true,
-      }
+      },
+      appointmentHour: '14:00'
     }
 
     before(function() {
@@ -26,7 +27,7 @@ describe('dashboard', function() {
       cy.apiLogin(data.customer)
 
       cy.setProviderId(data.provider.email)
-      cy.createAppointment()
+      cy.createAppointment(data.appointmentHour)
     })
 
     it('appointment should be displayed on the dashboard', function() {
@@ -35,16 +36,22 @@ describe('dashboard', function() {
       loginPage.submit()
       
       dashPage.calendarShouldBeVisible()
+
+      const day = Cypress.env('appointmentDay')
+      dashPage.selectDay(day)
+
+      dashPage.appointmentShouldBeVisible(data.customer, data.appointmentHour)
     });
   });
 })
 
-Cypress.Commands.add('createAppointment', function() {
+Cypress.Commands.add('createAppointment', function(hour) {
   let now = new Date()
-
   now.setDate(now.getDate() + 1)
 
-  const date = moment(now).format('YYYY-MM-DD 14:00:00')
+  Cypress.env('appointmentDay', now.getDate())
+
+  const date = moment(now).format(`YYYY-MM-DD ${hour}:00`)
   
   const payload = {
     provider_id: Cypress.env('providerId'),
@@ -73,7 +80,6 @@ Cypress.Commands.add('setProviderId', function(providerEmail) {
     }
   }).then(function(response) {
     expect(response.status).to.eq(200)
-    console.log(response.body)
     const providerList = response.body
 
     providerList.forEach(function(provider) {
