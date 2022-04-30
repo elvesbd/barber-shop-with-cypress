@@ -72,7 +72,7 @@ Cypress.Commands.add('createAppointment', function(hour) {
   let now = new Date()
   now.setDate(now.getDate() + 1)
 
-  Cypress.env('appointmentDay', now.getDate())
+  Cypress.env('appointmentDay', now)
 
   const date = moment(now).format(`YYYY-MM-DD ${hour}:00`)
   
@@ -113,7 +113,7 @@ Cypress.Commands.add('setProviderId', function(providerEmail) {
   })
 })
 
-Cypress.Commands.add('apiLogin', function(user) {
+Cypress.Commands.add('apiLogin', function(user, setLocalStore = false) {
   const payload = {
     email: user.email,
     password: user.password
@@ -126,5 +126,16 @@ Cypress.Commands.add('apiLogin', function(user) {
   }).then(function(response) {
     expect(response.status).to.eq(200)
     Cypress.env('apiToken', response.body.token)
+
+    if (setLocalStore) {
+      const { token, user } =  response.body
+
+      window.localStorage.setItem('@Samurai:token', token)
+      window.localStorage.setItem('@Samurai:user', JSON.stringify(user))
+    }
   })
+
+  if (setLocalStore) {
+    cy.visit('/dashboard')
+  }
 })
