@@ -13,13 +13,13 @@ describe('dashboard', function() {
     })
 
     it('appointment should be displayed on the dashboard', function() {
-      const day = Cypress.env('appointmentDay')
+      const date = Cypress.env('appointmentDate')
       
       // cy.uiLogin(provider)
       cy.apiLogin(provider, true)
       
       dashPage.calendarShouldBeVisible()
-      dashPage.selectDay(day)
+      dashPage.selectDay(date)
       dashPage.appointmentShouldBeVisible(customer, appointment.hour)
     });
   });
